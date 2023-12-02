@@ -51,8 +51,8 @@ pub fn part_two(input: &str) -> Option<u32> {
                 }
             }
 
-            let first = digits.first().unwrap().to_owned();
-            let last = digits.last().or(Some(&first)).unwrap();
+            let first = digits.first().unwrap();
+            let last = digits.last().unwrap_or(first);
 
             let str = format!("{}{}", first, last);
             str.parse::<u32>().unwrap()
