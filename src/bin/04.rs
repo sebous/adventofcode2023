@@ -17,7 +17,7 @@ fn parse_input(input: &str) -> Vec<Card> {
                 .map(|nums| {
                     nums.split_whitespace()
                         .map(|n| n.parse::<u32>().unwrap())
-                        .collect::<HashSet<u32>>()
+                        .collect::<HashSet<_>>()
                 })
                 .collect_tuple()
                 .unwrap()
