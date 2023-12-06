@@ -75,18 +75,14 @@ fn find_lowest_loc(maps: &Vec<Map>, seed_ranges: &Vec<i64>) -> Option<i64> {
     for chunk in seed_ranges.iter().chunks(2).into_iter() {
         let (seed_start, size) = chunk.cloned().into_iter().next_tuple().unwrap();
         for seed in seed_start..seed_start + size {
-            // println!("seed: {}", seed);
             let mut current = seed;
             'map_loop: for map in maps {
-                // println!("source: {}, dest: {}", map.source, map.destination);
                 for range in &map.ranges {
                     if current >= range.source && current <= (range.source + range.size) {
                         current = range.dest + current - range.source;
                         continue 'map_loop;
                     }
                 }
-
-                // println!("current: {}, next: {}", current, next.unwrap_or(current));
             }
 
             match lowest {
@@ -99,7 +95,6 @@ fn find_lowest_loc(maps: &Vec<Map>, seed_ranges: &Vec<i64>) -> Option<i64> {
         }
     }
 
-    // println!("{:?}", locations);
     lowest
 }
 
@@ -118,21 +113,4 @@ pub fn part_one(input: &str) -> Option<i64> {
 pub fn part_two(input: &str) -> Option<i64> {
     let almanac = parse_input(input);
     find_lowest_loc(&almanac.maps, &almanac.seeds)
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_part_one() {
-        let result = part_one(&advent_of_code::template::read_file("examples", DAY));
-        assert_eq!(result, None);
-    }
-
-    #[test]
-    fn test_part_two() {
-        let result = part_two(&advent_of_code::template::read_file("examples", DAY));
-        assert_eq!(result, None);
-    }
 }
