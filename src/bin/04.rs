@@ -1,7 +1,5 @@
-use std::collections::{HashMap, HashSet};
-
 use itertools::Itertools;
-
+use std::collections::{HashMap, HashSet};
 advent_of_code::solution!(4);
 
 type Card = (HashSet<u32>, HashSet<u32>);
