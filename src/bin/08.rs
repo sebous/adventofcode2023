@@ -1,10 +1,9 @@
+use itertools::Itertools;
+use num::integer::lcm;
 use std::collections::HashMap;
 
-use itertools::Itertools;
-
-use num::integer::lcm;
-
 advent_of_code::solution!(8);
+
 #[derive(Debug)]
 enum Dir {
     Left,
@@ -17,12 +16,11 @@ struct Instruction {
 }
 
 fn parse(input: &str) -> Instruction {
-    let mut lines_iter = input.lines().enumerate();
+    let mut lines_iter = input.lines();
 
     let directions = lines_iter
         .next()
         .unwrap()
-        .1
         .chars()
         .map(|ch| match ch {
             'L' => Dir::Left,
@@ -30,11 +28,12 @@ fn parse(input: &str) -> Instruction {
             _ => unimplemented!(),
         })
         .collect_vec();
+    // skip 1
     lines_iter.next();
 
     let mut nodes = HashMap::new();
 
-    while let Some((_, line)) = lines_iter.next() {
+    for line in lines_iter {
         let (node, branches) = line.split_once(" = (").unwrap();
         let branches = branches.replace(")", "");
         let (left, right) = branches.split_once(", ").unwrap();
