@@ -7,6 +7,22 @@ use itertools::Itertools;
 
 pub type Coord = (usize, usize);
 
+// enum Direction {
+//     Top,
+//     TopRight,
+//     Right,
+//     BottomRight,
+//     Bottom,
+//     BottomLeft,
+//     Left,
+//     TopLeft,
+// }
+
+// enum ZeroCoordLocation {
+//     TopLeft,
+//     BottomLeft,
+// }
+
 #[derive(Debug, Clone, PartialEq)]
 pub struct Grid<T> {
     pub map: HashMap<Coord, T>,
@@ -59,6 +75,18 @@ impl<T> Grid<T> {
         existing.into_iter()
     }
 
+    // pub fn get_next_coord_in_direction(
+    //     self,
+    //     (x, y): &Coord,
+    //     direction: Direction,
+    // ) -> Option<Coord> {
+    //     let a = match direction {
+    //         Direction::BottomLeft if *x != 0 && *y != 0 => Some((x - 1, y - 1)),
+    //         Direction::Left if *x != 0 => Some((x - 1, *y)),
+    //         Direction::Top if *y + 1 <self.height => Some((*x, y + 1))
+    //     }
+    //     None
+    // }
     pub fn iter_coords(&self) -> impl Iterator<Item = Coord> {
         (0..self.width).cartesian_product(0..self.height).sorted()
     }
