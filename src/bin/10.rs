@@ -153,7 +153,7 @@ fn find_possible_routes_recursively(
         }
     }
 
-    println!("return: {:?}", routes);
+    // println!("return: {:?}", routes);
     routes
 }
 
@@ -171,6 +171,7 @@ pub fn part_one(input: &str) -> Option<u32> {
     let routes = find_possible_routes_recursively(&grid, &vec![], start_c);
 
     println!("{:?}", routes.iter().map(|r| r.len()).max());
+
     None
 }
 
