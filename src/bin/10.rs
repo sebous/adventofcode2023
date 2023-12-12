@@ -157,8 +157,6 @@ fn find_possible_routes_recursively(
     routes
 }
 
-// [[(1, 2)]]
-
 pub fn part_one(input: &str) -> Option<u32> {
     let grid = parse(input);
 

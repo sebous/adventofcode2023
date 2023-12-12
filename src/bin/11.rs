@@ -6,14 +6,15 @@ use itertools::Itertools;
 advent_of_code::solution!(11);
 
 fn parse(input: &str, multiplier: u32) -> HashSet<Coord> {
-    let mut map = HashSet::new();
-    let height = input.lines().count();
-    let width = input.lines().next().unwrap().chars().count();
+    let mut coord_set = HashSet::new();
 
     let input_2d = input
         .lines()
         .map(|ln| ln.chars().collect_vec())
         .collect_vec();
+
+    let height = input_2d.len();
+    let width = input_2d[0].len();
 
     let mut expand_columns = vec![];
     let mut expand_rows = vec![];
@@ -29,20 +30,16 @@ fn parse(input: &str, multiplier: u32) -> HashSet<Coord> {
         }
     }
 
-    let multiplier = if multiplier > 1 {
-        multiplier - 1
-    } else {
-        multiplier
-    };
+    let multiplier = multiplier - 1;
 
-    for (y, line) in input.lines().enumerate() {
-        for (x, point) in line.chars().enumerate() {
-            match point {
+    for y in 0..height {
+        for x in 0..width {
+            match input_2d[y][x] {
                 '#' => {
                     let move_right = expand_columns.iter().filter(|a| **a < x).count();
                     let move_bot = expand_rows.iter().filter(|a| **a < y).count();
 
-                    map.insert((
+                    coord_set.insert((
                         x + move_right * multiplier as usize,
                         y + move_bot * multiplier as usize,
                     ));
@@ -52,7 +49,7 @@ fn parse(input: &str, multiplier: u32) -> HashSet<Coord> {
         }
     }
 
-    map
+    coord_set
 }
 
 fn manhattan_dist((x1, y1): &Coord, (x2, y2): &Coord) -> u64 {
@@ -61,8 +58,8 @@ fn manhattan_dist((x1, y1): &Coord, (x2, y2): &Coord) -> u64 {
     (x.abs() + y.abs()) as u64
 }
 
-fn sum_distances(map: &HashSet<Coord>) -> u64 {
-    let unique_pairs = map
+fn sum_distances(coords: &HashSet<Coord>) -> u64 {
+    let unique_pairs = coords
         .iter()
         .permutations(2)
         .map(|vals| {
@@ -82,13 +79,13 @@ fn sum_distances(map: &HashSet<Coord>) -> u64 {
 }
 
 pub fn part_one(input: &str) -> Option<u64> {
-    let map = parse(input, 1);
-    Some(sum_distances(&map))
+    let coords = parse(input, 2);
+    Some(sum_distances(&coords))
 }
 
 pub fn part_two(input: &str) -> Option<u64> {
-    let map = parse(input, 1000000);
-    Some(sum_distances(&map))
+    let coords = parse(input, 1000000);
+    Some(sum_distances(&coords))
 }
 
 #[cfg(test)]
